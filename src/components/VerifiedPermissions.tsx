@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Button,
   SpaceBetween,
   Table,
   Header,
@@ -24,23 +23,23 @@ const VerifiedPermissions: React.FC = () => {
 
   useEffect(() => {
     const extractedPricing: PricingItem[] = [];
-    // Safely access pricingData structure
+
+    // Use Object.entries for type safety
     if (
       pricingData &&
       pricingData.products &&
       pricingData.terms &&
       pricingData.terms.OnDemand
     ) {
-      for (const productSku in pricingData.products) {
-        const product = pricingData.products[productSku];
+      for (const [productSku, product] of Object.entries<any>(pricingData.products)) {
         const regionCode = product.attributes.regionCode;
         const location = product.attributes.location;
 
-        const onDemandTerms = pricingData.terms.OnDemand[productSku];
+        const onDemandTerms = (pricingData.terms.OnDemand as Record<string, any>)[productSku];
         if (onDemandTerms) {
-          for (const termKey in onDemandTerms) {
+          for (const termKey of Object.keys(onDemandTerms)) {
             const priceDimensions = onDemandTerms[termKey].priceDimensions;
-            for (const priceDimKey in priceDimensions) {
+            for (const priceDimKey of Object.keys(priceDimensions)) {
               const priceDimension = priceDimensions[priceDimKey];
               extractedPricing.push({
                 regionCode,
