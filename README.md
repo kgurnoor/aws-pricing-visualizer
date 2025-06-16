@@ -1,54 +1,109 @@
-# React + TypeScript + Vite
+# AWS Pricelist Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, AWS-style pricing visualizer built with **React**, **TypeScript**, and the **Cloudscape Design System**.  
+This project lets users explore and compare AWS service pricing by selecting service, product, duration, and region in an intuitive dashboard.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- **AWS-style UI** using Cloudscape components for a familiar, professional look
+- **Dropdown selectors** for Service, Product, Duration, and Region
+- **Responsive and accessible** design
+- **Modular structure** for easy extension and integration
+- **Ready for real AWS JSON pricing data** (just plug in your files)
+- **Future-ready**: Easily add charts, tables, AI chatbot, and more
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 📸 Screenshots
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+![Screenshot of the AWS Pricelist Visualizer UI](./screenshot.png)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🛠️ Tech Stack
+
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Cloudscape Design System](https://cloudscape.design/)
+- [Vite](https://vitejs.dev/) (for fast development and build)
+
+---
+
+## 📦 Getting Started
+
+### 1. **Clone the Repository**
+
+git clone https://github.com/yourusername/aws-pricing-visualizer.git
+cd aws-pricing-visualizer
+
+
+### 2. **Install Dependencies**
+
+npm install
+
+
+### 3. **Run the App Locally**
+
+npm run dev
+Then open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 📁 Project Structure
+
+aws-pricing-visualizer/
+├── src/
+│ ├── components/ # Reusable UI components
+│ ├── data/ # AWS pricing JSON files
+│ ├── App.tsx # Main app UI
+│ └── main.tsx # Entry point
+├── public/
+├── package.json
+├── README.md
+└── ...
+
+
+---
+
+## 📝 Usage
+
+- Select **Service**, **Product**, **Duration**, and **Region** from the dropdowns.
+- Click **View Pricing** to display pricing details (to be connected to real data).
+- Use other buttons (e.g., Show Discounts, Help) for additional features.
+
+---
+
+## 🧩 Customization
+
+- **Add your AWS pricing JSON files** to `src/data/`.
+- **Extend UI**: Add charts, tables, or chatbot features as needed.
+- **Integrate with AWS APIs** or other data sources for real-time pricing.
+
+---
+
+## 🧑‍💻 Contributing
+
+Contributions are welcome! Please open issues or submit pull requests for new features, bug fixes, or improvements.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙌 Acknowledgements
+
+- [Cloudscape Design System by AWS](https://cloudscape.design/)
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+
+---
+
+## 📬 Contact
+
+For questions or feedback, open an issue or reach out via [GitHub Discussions](https://github.com/kgurnoor/aws-pricing-visualizer/discussions).
+
