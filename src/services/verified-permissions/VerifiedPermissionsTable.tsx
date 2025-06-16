@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "@cloudscape-design/components/table";
-import pricingData from "../assets/index-current-version.json";
+import pricingData from "../../assets/index-current-version.json";
 
 interface PricingItem {
   regionCode: string;
@@ -8,14 +8,37 @@ interface PricingItem {
   price: string;
   unit: string;
   description: string;
+  usagetype?: string;
 }
 
-const PricingTable: React.FC = () => {
-  // Extract pricing as before (simplified)
+interface Props {
+  selectedRegion: { label?: string; value?: string } | null;
+  selectedProduct: { label?: string; value?: string } | null;
+  selectedDuration: { label?: string; value?: string } | null;
+}
+
+const VerifiedPermissionsTable: React.FC<Props> = ({
+  selectedRegion,
+  selectedProduct,
+  selectedDuration,
+}) => {
   const pricing: PricingItem[] = [];
-  if (pricingData.products && pricingData.terms && pricingData.terms.OnDemand) {
+
+  if (
+    pricingData.products &&
+    pricingData.terms &&
+    pricingData.terms.OnDemand &&
+    selectedRegion &&
+    selectedProduct &&
+    selectedDuration
+  ) {
     for (const [productSku, product] of Object.entries<any>(pricingData.products)) {
       const regionCode = product.attributes.regionCode;
+      if (regionCode !== selectedRegion.value) continue;
+      const usagetype = product.attributes.usagetype || productSku;
+      if (usagetype !== selectedProduct.value) continue;
+      // For now, only OnDemand is supported
+      if (selectedDuration.value !== "OnDemand") continue;
       const location = product.attributes.location;
       const onDemandTerms = pricingData.terms.OnDemand[productSku];
       if (onDemandTerms) {
@@ -29,6 +52,7 @@ const PricingTable: React.FC = () => {
               price: priceDimension.pricePerUnit.USD,
               unit: priceDimension.unit,
               description: priceDimension.description,
+              usagetype,
             });
           }
         }
@@ -51,8 +75,9 @@ const PricingTable: React.FC = () => {
       header="Pricing Table"
       variant="embedded"
       stickyHeader
+      empty={<span>No pricing data for this selection.</span>}
     />
   );
 };
 
-export default PricingTable;
+export default VerifiedPermissionsTable;

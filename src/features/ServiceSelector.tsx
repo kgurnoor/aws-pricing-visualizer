@@ -10,13 +10,13 @@ interface Props {
 }
 
 const ServiceSelector: React.FC<Props> = ({ selectedService, setSelectedService }) => {
-  // Build options from JSON
-  const options: ServiceOption[] = Object.entries((services as any).offers).map(
-    ([key, value]: [string, any]) => ({
+  // Build and sort options from JSON
+  const options: ServiceOption[] = Object.entries((services as any).offers)
+    .map(([key, value]: [string, any]) => ({
       label: value.offerCode,
       value: key,
-    })
-  );
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
 
   return (
     <Select
@@ -25,6 +25,7 @@ const ServiceSelector: React.FC<Props> = ({ selectedService, setSelectedService 
       options={options}
       placeholder="Select AWS Service"
       selectedAriaLabel="Selected service"
+      filteringType="auto"
     />
   );
 };

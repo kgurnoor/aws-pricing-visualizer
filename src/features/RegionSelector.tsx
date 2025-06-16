@@ -10,12 +10,12 @@ interface Props {
 }
 
 const RegionSelector: React.FC<Props> = ({ selectedRegion, setSelectedRegion }) => {
-  const options: RegionOption[] = Object.entries((regionData as any).regions).map(
-    ([key, value]: [string, any]) => ({
+  const options: RegionOption[] = Object.entries((regionData as any).regions)
+    .map(([key, value]: [string, any]) => ({
       label: value.regionCode,
       value: key,
-    })
-  );
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
 
   return (
     <Select
@@ -24,6 +24,7 @@ const RegionSelector: React.FC<Props> = ({ selectedRegion, setSelectedRegion }) 
       options={options}
       placeholder="Select Region"
       selectedAriaLabel="Selected region"
+      filteringType="auto"
     />
   );
 };
