@@ -32,10 +32,10 @@ const regionOptions: SelectOption[] = [
 ];
 
 export default function App() {
-  const [service, setService] = useState<SelectOption | undefined>(serviceOptions[0]);
-  const [product, setProduct] = useState<SelectOption | undefined>(productOptions[0]);
-  const [duration, setDuration] = useState<SelectOption | undefined>(durationOptions[0]);
-  const [region, setRegion] = useState<SelectOption | undefined>(regionOptions[0]);
+  const [service, setService] = useState<SelectOption | null>(serviceOptions[0]);
+  const [product, setProduct] = useState<SelectOption | null>(productOptions[0]);
+  const [duration, setDuration] = useState<SelectOption | null>(durationOptions[0]);
+  const [region, setRegion] = useState<SelectOption | null>(regionOptions[0]);
 
   return (
     <AppLayout

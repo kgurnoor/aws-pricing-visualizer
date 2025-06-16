@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, SpaceBetween, Table, Header } from "@cloudscape-design/components";
-import pricingData from '../assets/index-current-version.json';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  SpaceBetween,
+  Table,
+  Header,
+  Input
+} from "@cloudscape-design/components";
+import pricingData from "../assets/index-current-version.json";
 
 interface PricingItem {
   regionCode: string;
@@ -10,40 +17,48 @@ interface PricingItem {
   description: string;
 }
 
-const VerifiedPermissions = () => {
-  const [region, setRegion] = useState('');
+const VerifiedPermissions: React.FC = () => {
   const [pricing, setPricing] = useState<PricingItem[]>([]);
-  const [filterText, setFilterText] = useState('');
+  const [filterText, setFilterText] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const extractedPricing: PricingItem[] = [];
-    for (const productSku in (pricingData as any).products) {
-      const product = (pricingData as any).products[productSku];
-      const regionCode = product.attributes.regionCode;
-      const location = product.attributes.location;
+    // Safely access pricingData structure
+    if (
+      pricingData &&
+      pricingData.products &&
+      pricingData.terms &&
+      pricingData.terms.OnDemand
+    ) {
+      for (const productSku in pricingData.products) {
+        const product = pricingData.products[productSku];
+        const regionCode = product.attributes.regionCode;
+        const location = product.attributes.location;
 
-      if ((pricingData as any).terms.OnDemand[productSku]) {
-        const term = (pricingData as any).terms.OnDemand[productSku];
-        for (const priceDimensionKey in term) {
-          const priceDimension = (term as any)[priceDimensionKey].priceDimensions[Object.keys((term as any)[priceDimensionKey].priceDimensions)[0]];
-          const price = priceDimension.pricePerUnit.USD;
-          const unit = priceDimension.unit;
-          const description = priceDimension.description;
-
-          extractedPricing.push({
-            regionCode,
-            location,
-            price,
-            unit,
-            description,
-          });
+        const onDemandTerms = pricingData.terms.OnDemand[productSku];
+        if (onDemandTerms) {
+          for (const termKey in onDemandTerms) {
+            const priceDimensions = onDemandTerms[termKey].priceDimensions;
+            for (const priceDimKey in priceDimensions) {
+              const priceDimension = priceDimensions[priceDimKey];
+              extractedPricing.push({
+                regionCode,
+                location,
+                price: priceDimension.pricePerUnit.USD,
+                unit: priceDimension.unit,
+                description: priceDimension.description,
+              });
+            }
+          }
         }
       }
     }
     setPricing(extractedPricing);
+    setLoading(false);
   }, []);
 
-  const filteredPricing = pricing.filter(item =>
+  const filteredPricing = pricing.filter((item) =>
     item.location.toLowerCase().includes(filterText.toLowerCase())
   );
 
@@ -80,23 +95,26 @@ const VerifiedPermissions = () => {
     },
   ];
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterText(event.target.value);
-  };
-
   return (
     <Box margin="l">
       <Header variant="h2">Verified Permissions Pricing</Header>
-      <input
-        type="text"
-        placeholder="Find pricing"
-        value={filterText}
-        onChange={handleFilterChange}
-      />
-<Table
-        columnDefinitions={columns}
-        items={filteredPricing}
-      />
+      <SpaceBetween size="m">
+        <Input
+          type="search"
+          placeholder="Find pricing by location"
+          value={filterText}
+          onChange={({ detail }) => setFilterText(detail.value)}
+        />
+        <Table
+          columnDefinitions={columns}
+          items={filteredPricing}
+          loading={loading}
+          loadingText="Loading pricing data…"
+          header="Pricing Table"
+          variant="embedded"
+          stickyHeader
+        />
+      </SpaceBetween>
     </Box>
   );
 };
