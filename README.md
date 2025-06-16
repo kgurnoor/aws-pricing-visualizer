@@ -18,7 +18,7 @@ This project lets users explore and compare AWS service pricing by selecting ser
 
 ## 📸 Screenshots
 
-![Screenshot of the AWS Pricelist Visualizer UI](screenshots/screenshot.png)
+![AWS Pricelist Visualizer Screenshot](screenshots/screenshot.png)
 
 ---
 
