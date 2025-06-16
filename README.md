@@ -18,7 +18,7 @@ This project lets users explore and compare AWS service pricing by selecting ser
 
 ## 📸 Screenshots
 
-![Screenshot of the AWS Pricelist Visualizer UI](./screenshot.png)
+![Screenshot of the AWS Pricelist Visualizer UI](screenshots/screenshot.png)
 
 ---
 
@@ -51,21 +51,6 @@ Then open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 📁 Project Structure
-
-aws-pricing-visualizer/
-├── src/
-│ ├── components/ # Reusable UI components
-│ ├── data/ # AWS pricing JSON files
-│ ├── App.tsx # Main app UI
-│ └── main.tsx # Entry point
-├── public/
-├── package.json
-├── README.md
-└── ...
-
-
----
 
 ## 📝 Usage
 
