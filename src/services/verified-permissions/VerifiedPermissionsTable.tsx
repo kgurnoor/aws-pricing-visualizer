@@ -1,4 +1,3 @@
-import React from "react";
 import Table from "@cloudscape-design/components/table";
 import pricingData from "../../assets/index-current-version.json";
 
@@ -37,10 +36,9 @@ const VerifiedPermissionsTable: React.FC<Props> = ({
       if (regionCode !== selectedRegion.value) continue;
       const usagetype = product.attributes.usagetype || productSku;
       if (usagetype !== selectedProduct.value) continue;
-      // For now, only OnDemand is supported
       if (selectedDuration.value !== "OnDemand") continue;
       const location = product.attributes.location;
-      const onDemandTerms = pricingData.terms.OnDemand[productSku];
+      const onDemandTerms = (pricingData.terms.OnDemand as Record<string, any>)[productSku];
       if (onDemandTerms) {
         for (const termKey of Object.keys(onDemandTerms)) {
           const priceDimensions = onDemandTerms[termKey].priceDimensions;

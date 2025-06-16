@@ -1,8 +1,7 @@
-import React from "react";
 import Select from "@cloudscape-design/components/select";
 import regionData from "../assets/index-current-region.json";
 
-type RegionOption = { label: string; value: string };
+type RegionOption = { label?: string; value?: string };
 
 interface Props {
   selectedRegion: RegionOption | null;
@@ -15,7 +14,7 @@ const RegionSelector: React.FC<Props> = ({ selectedRegion, setSelectedRegion }) 
       label: value.regionCode,
       value: key,
     }))
-    .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
+    .sort((a, b) => (a.label || "").localeCompare(b.label || ""));
 
   return (
     <Select

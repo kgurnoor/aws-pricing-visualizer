@@ -1,8 +1,7 @@
-import React from "react";
 import Select from "@cloudscape-design/components/select";
 import services from "../assets/index.json";
 
-type ServiceOption = { label: string; value: string };
+type ServiceOption = { label?: string; value?: string };
 
 interface Props {
   selectedService: ServiceOption | null;
@@ -10,13 +9,12 @@ interface Props {
 }
 
 const ServiceSelector: React.FC<Props> = ({ selectedService, setSelectedService }) => {
-  // Build and sort options from JSON
   const options: ServiceOption[] = Object.entries((services as any).offers)
     .map(([key, value]: [string, any]) => ({
       label: value.offerCode,
       value: key,
     }))
-    .sort((a, b) => a.label.localeCompare(b.label)); // Sort alphabetically by label
+    .sort((a, b) => (a.label || "").localeCompare(b.label || ""));
 
   return (
     <Select

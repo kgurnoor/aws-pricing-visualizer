@@ -1,8 +1,7 @@
-import React from "react";
 import Select from "@cloudscape-design/components/select";
 import pricingData from "../assets/index-current-version.json";
 
-type ProductOption = { label: string; value: string };
+type ProductOption = { label?: string; value?: string };
 
 interface Props {
   selectedProduct: ProductOption | null;
@@ -11,7 +10,6 @@ interface Props {
 }
 
 const ProductSelector: React.FC<Props> = ({ selectedProduct, setSelectedProduct, selectedRegion }) => {
-  // Extract product options from pricingData for the selected region
   const productSet = new Set<string>();
   if (
     pricingData.products &&
@@ -26,7 +24,7 @@ const ProductSelector: React.FC<Props> = ({ selectedProduct, setSelectedProduct,
   const options: ProductOption[] = Array.from(productSet).map((prod) => ({
     label: prod,
     value: prod,
-  }));
+  })).sort((a, b) => (a.label || "").localeCompare(b.label || ""));
 
   return (
     <Select
@@ -36,6 +34,7 @@ const ProductSelector: React.FC<Props> = ({ selectedProduct, setSelectedProduct,
       placeholder="Select Product (e.g. API Requests)"
       selectedAriaLabel="Selected product"
       disabled={!selectedRegion}
+      filteringType="auto"
     />
   );
 };

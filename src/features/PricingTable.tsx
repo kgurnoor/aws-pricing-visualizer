@@ -1,4 +1,3 @@
-import React from "react";
 import VerifiedPermissionsTable from "../services/verified-permissions/VerifiedPermissionsTable";
 
 interface Props {
@@ -20,7 +19,6 @@ const PricingTable: React.FC<Props> = ({ service, region, product, duration }) =
           selectedDuration={duration}
         />
       );
-    // Future: add more cases for other services
     default:
       return (
         <div>

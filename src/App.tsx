@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import AppLayout from "@cloudscape-design/components/app-layout";
 import Container from "@cloudscape-design/components/container";
 import Header from "@cloudscape-design/components/header";
@@ -11,6 +10,7 @@ import ProductSelector from "./features/ProductSelector";
 import DurationSelector from "./features/DurationSelector";
 import PricingTable from "./features/PricingTable";
 import Box from "@cloudscape-design/components/box";
+import { useState } from "react";
 
 function App() {
   const [selectedService, setSelectedService] = useState<any>(null);

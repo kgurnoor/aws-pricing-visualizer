@@ -1,7 +1,6 @@
-import React from "react";
 import Select from "@cloudscape-design/components/select";
 
-type DurationOption = { label: string; value: string };
+type DurationOption = { label?: string; value?: string };
 
 interface Props {
   selectedDuration: DurationOption | null;
@@ -10,7 +9,7 @@ interface Props {
 
 const durationOptions: DurationOption[] = [
   { label: "On-Demand", value: "OnDemand" },
-  // In the future, add reserved or spot options here
+  // Add reserved/spot options here in the future
 ];
 
 const DurationSelector: React.FC<Props> = ({ selectedDuration, setSelectedDuration }) => (
@@ -20,6 +19,7 @@ const DurationSelector: React.FC<Props> = ({ selectedDuration, setSelectedDurati
     options={durationOptions}
     placeholder="Select Duration"
     selectedAriaLabel="Selected duration"
+    filteringType="auto"
   />
 );
 
