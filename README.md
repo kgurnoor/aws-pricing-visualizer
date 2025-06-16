@@ -4,7 +4,11 @@ A modern, AWS-style pricing visualizer built with **React**, **TypeScript**, and
 This project lets users explore and compare AWS service pricing by selecting service, product, duration, and region in an intuitive dashboard.
 
 ---
+## 🚀 Live Demo
 
+👉 [Try the App on Vercel](https://aws-pricing-visualizer.vercel.app/)
+
+---
 ## 🚀 Features
 
 - **AWS-style UI** using Cloudscape components for a familiar, professional look
