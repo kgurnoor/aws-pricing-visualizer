@@ -65,8 +65,9 @@ function App() {
   const selectedVersionInfo =
     selectedVersion &&
     versionData.versions &&
+    typeof selectedVersion.value === "string" &&
     Object.prototype.hasOwnProperty.call(versionData.versions, selectedVersion.value)
-      ? versionData.versions[selectedVersion.value as keyof typeof versionData.versions]
+      ? (versionData.versions as Record<string, any>)[selectedVersion.value]
       : {};
 
   return (
