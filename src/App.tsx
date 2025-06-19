@@ -63,8 +63,10 @@ function App() {
 
   const serviceName = selectedService?.label || "this service";
   const selectedVersionInfo =
-    selectedVersion && versionData.versions
-      ? versionData.versions[selectedVersion.value as string] || {}
+    selectedVersion &&
+    versionData.versions &&
+    Object.prototype.hasOwnProperty.call(versionData.versions, selectedVersion.value)
+      ? versionData.versions[selectedVersion.value as keyof typeof versionData.versions]
       : {};
 
   return (
