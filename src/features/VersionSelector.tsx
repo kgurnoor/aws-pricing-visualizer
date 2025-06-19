@@ -14,7 +14,7 @@ const VersionSelector: React.FC<Props> = ({ selectedVersion, setSelectedVersion 
       label: `${version} (${info.versionEffectiveBeginDate.split("T")[0]})`,
       value: version,
     }))
-    .sort((a, b) => (a.label || "").localeCompare(b.label || ""));
+    .sort((a, b) => (b.value || "").localeCompare(a.value || "")); // Descending order
 
   return (
     <Select

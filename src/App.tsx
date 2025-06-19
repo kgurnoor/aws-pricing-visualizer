@@ -10,43 +10,48 @@ import ProductSelector from "./features/ProductSelector";
 import DurationSelector from "./features/DurationSelector";
 import PricingTable from "./features/PricingTable";
 import Box from "@cloudscape-design/components/box";
+import NavBar from "./components/NavBar";
+import HelpBar from "./components/HelpBar";
+import ErrorBoundary from "./components/ErrorBoundary";
+import versionData from "./assets/index-version.json";
 import { useState } from "react";
 
 function App() {
   const [selectedService, setSelectedService] = useState<any>(null);
   const [selectedVersion, setSelectedVersion] = useState<any>(null);
-  const [selectedRegion, setSelectedRegion] = useState<any>(null);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedRegions, setSelectedRegions] = useState<any[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
   const [selectedDuration, setSelectedDuration] = useState<any>(null);
   const [showPricingTable, setShowPricingTable] = useState(false);
   const [showDiscounts, setShowDiscounts] = useState(false);
 
   const handleShowPricing = () => setShowPricingTable(true);
 
-  // Reset table when selections change
   const handleServiceChange = (service: any) => {
     setSelectedService(service);
     setShowPricingTable(false);
     setShowDiscounts(false);
-    setSelectedProduct(null);
+    setSelectedProducts([]);
     setSelectedDuration(null);
+    setSelectedRegions([]);
   };
   const handleVersionChange = (version: any) => {
     setSelectedVersion(version);
     setShowPricingTable(false);
     setShowDiscounts(false);
-    setSelectedProduct(null);
+    setSelectedProducts([]);
     setSelectedDuration(null);
+    setSelectedRegions([]);
   };
-  const handleRegionChange = (region: any) => {
-    setSelectedRegion(region);
+  const handleRegionChange = (regions: any[]) => {
+    setSelectedRegions(regions);
     setShowPricingTable(false);
     setShowDiscounts(false);
-    setSelectedProduct(null);
+    setSelectedProducts([]);
     setSelectedDuration(null);
   };
-  const handleProductChange = (product: any) => {
-    setSelectedProduct(product);
+  const handleProductChange = (products: any[]) => {
+    setSelectedProducts(products);
     setShowPricingTable(false);
     setShowDiscounts(false);
   };
@@ -57,9 +62,14 @@ function App() {
   };
 
   const serviceName = selectedService?.label || "this service";
+  const selectedVersionInfo = selectedVersion
+    ? (versionData.versions[selectedVersion.value] || {})
+    : {};
 
   return (
     <AppLayout
+      navigation={<NavBar />}
+      tools={<HelpBar />}
       content={
         <Container header={<Header variant="h1">AWS Pricelist Visualizer</Header>}>
           <SpaceBetween size="l">
@@ -73,13 +83,13 @@ function App() {
                 setSelectedVersion={handleVersionChange}
               />
               <RegionSelector
-                selectedRegion={selectedRegion}
-                setSelectedRegion={handleRegionChange}
+                selectedRegions={selectedRegions}
+                setSelectedRegions={handleRegionChange}
               />
               <ProductSelector
-                selectedProduct={selectedProduct}
-                setSelectedProduct={handleProductChange}
-                selectedRegion={selectedRegion}
+                selectedProducts={selectedProducts}
+                setSelectedProducts={handleProductChange}
+                selectedRegions={selectedRegions}
               />
               <DurationSelector
                 selectedDuration={selectedDuration}
@@ -91,8 +101,8 @@ function App() {
                 disabled={
                   !selectedService ||
                   !selectedVersion ||
-                  !selectedRegion ||
-                  !selectedProduct ||
+                  !selectedRegions.length ||
+                  !selectedProducts.length ||
                   !selectedDuration
                 }
               >
@@ -105,21 +115,18 @@ function App() {
               >
                 Show Discounts
               </Button>
-              <Button
-                variant="link"
-                onClick={() => window.open("https://aws.amazon.com/pricing/", "_blank")}
-              >
-                Help
-              </Button>
             </SpaceBetween>
 
             {showPricingTable && (
-              <PricingTable
-                service={selectedService}
-                region={selectedRegion}
-                product={selectedProduct}
-                duration={selectedDuration}
-              />
+              <ErrorBoundary>
+                <PricingTable
+                  service={selectedService}
+                  region={selectedRegions}
+                  product={selectedProducts}
+                  duration={selectedDuration}
+                  versionInfo={selectedVersionInfo}
+                />
+              </ErrorBoundary>
             )}
 
             {showDiscounts && (

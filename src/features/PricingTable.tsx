@@ -2,21 +2,23 @@ import VerifiedPermissionsTable from "../services/verified-permissions/VerifiedP
 
 interface Props {
   service: { label?: string; value?: string } | null;
-  region: { label?: string; value?: string } | null;
-  product: { label?: string; value?: string } | null;
+  region: { label?: string; value?: string }[];
+  product: { label?: string; value?: string }[];
   duration: { label?: string; value?: string } | null;
+  versionInfo: { versionEffectiveBeginDate?: string; versionEffectiveEndDate?: string };
 }
 
-const PricingTable: React.FC<Props> = ({ service, region, product, duration }) => {
+const PricingTable: React.FC<Props> = ({ service, region, product, duration, versionInfo }) => {
   if (!service) return null;
 
   switch (service.value) {
     case "AmazonVerifiedPermissions":
       return (
         <VerifiedPermissionsTable
-          selectedRegion={region}
-          selectedProduct={product}
+          selectedRegions={region}
+          selectedProducts={product}
           selectedDuration={duration}
+          versionInfo={versionInfo}
         />
       );
     default:

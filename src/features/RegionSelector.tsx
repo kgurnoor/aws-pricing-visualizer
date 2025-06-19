@@ -1,29 +1,43 @@
-import Select from "@cloudscape-design/components/select";
+import Multiselect from "@cloudscape-design/components/multiselect";
 import regionData from "../assets/index-current-region.json";
 
 type RegionOption = { label?: string; value?: string };
 
 interface Props {
-  selectedRegion: RegionOption | null;
-  setSelectedRegion: (region: RegionOption | null) => void;
+  selectedRegions: RegionOption[];
+  setSelectedRegions: (regions: RegionOption[]) => void;
 }
 
-const RegionSelector: React.FC<Props> = ({ selectedRegion, setSelectedRegion }) => {
-  const options: RegionOption[] = Object.entries((regionData as any).regions)
+const RegionSelector: React.FC<Props> = ({ selectedRegions, setSelectedRegions }) => {
+  const allOptions: RegionOption[] = Object.entries((regionData as any).regions)
     .map(([key, value]: [string, any]) => ({
       label: value.regionCode,
       value: key,
     }))
     .sort((a, b) => (a.label || "").localeCompare(b.label || ""));
 
+  // "Select All" logic
+  const selectAllOption: RegionOption = { label: "Select All", value: "__ALL__" };
+  const options = [selectAllOption, ...allOptions];
+
+  const handleChange = ({ detail }: any) => {
+    const selected = detail.selectedOptions;
+    if (selected.some((opt: RegionOption) => opt.value === "__ALL__")) {
+      setSelectedRegions(allOptions);
+    } else {
+      setSelectedRegions(selected);
+    }
+  };
+
   return (
-    <Select
-      selectedOption={selectedRegion}
-      onChange={({ detail }) => setSelectedRegion(detail.selectedOption)}
+    <Multiselect
+      selectedOptions={selectedRegions}
+      onChange={handleChange}
       options={options}
-      placeholder="Select Region"
-      selectedAriaLabel="Selected region"
+      placeholder="Select Regions"
+      selectedAriaLabel="Selected regions"
       filteringType="auto"
+      // Default behavior: dropdown closes after each selection (AWS-style)
     />
   );
 };
