@@ -62,9 +62,10 @@ function App() {
   };
 
   const serviceName = selectedService?.label || "this service";
-  const selectedVersionInfo = selectedVersion
-    ? (versionData.versions[selectedVersion.value] || {})
-    : {};
+  const selectedVersionInfo =
+    selectedVersion && versionData.versions
+      ? versionData.versions[selectedVersion.value as keyof typeof versionData.versions] || {}
+      : {};
 
   return (
     <AppLayout

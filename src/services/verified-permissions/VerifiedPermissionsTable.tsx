@@ -15,14 +15,16 @@ interface PricingItem {
   usagetype?: string;
 }
 
+type SortOption = { label: string; value: string };
+
 interface Props {
-  selectedRegions: { label?: string; value?: string }[];
-  selectedProducts: { label?: string; value?: string }[];
+  selectedRegions: { label: string; value: string }[];
+  selectedProducts: { label: string; value: string }[];
   selectedDuration: { label?: string; value?: string } | null;
   versionInfo?: { versionEffectiveBeginDate?: string; versionEffectiveEndDate?: string };
 }
 
-const SORT_OPTIONS = [
+const SORT_OPTIONS: SortOption[] = [
   { label: "Price (Lowest first)", value: "minPrice_asc" },
   { label: "Price (Highest first)", value: "minPrice_desc" },
   { label: "SKU/Usage Type (A-Z)", value: "sku_asc" },
@@ -56,7 +58,7 @@ const VerifiedPermissionsTable: React.FC<Props> = ({
   }
 
   const [searchText, setSearchText] = useState("");
-  const [sortOption, setSortOption] = useState(SORT_OPTIONS[0]);
+  const [sortOption, setSortOption] = useState<SortOption>(SORT_OPTIONS[0]);
 
   // Extract and group pricing data
   const pricing: PricingItem[] = [];
@@ -191,7 +193,7 @@ const VerifiedPermissionsTable: React.FC<Props> = ({
         />
         <Select
           selectedOption={sortOption}
-          onChange={({ detail }) => setSortOption(detail.selectedOption)}
+          onChange={({ detail }) => setSortOption(detail.selectedOption as SortOption)}
           options={SORT_OPTIONS}
           ariaLabel="Sort by"
           placeholder="Sort by"

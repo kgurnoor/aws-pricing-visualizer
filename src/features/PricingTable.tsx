@@ -2,8 +2,8 @@ import VerifiedPermissionsTable from "../services/verified-permissions/VerifiedP
 
 interface Props {
   service: { label?: string; value?: string } | null;
-  region: { label?: string; value?: string }[];
-  product: { label?: string; value?: string }[];
+  region: { label: string; value: string }[];
+  product: { label: string; value: string }[];
   duration: { label?: string; value?: string } | null;
   versionInfo: { versionEffectiveBeginDate?: string; versionEffectiveEndDate?: string };
 }
