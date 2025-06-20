@@ -9,6 +9,7 @@ import RegionSelector from "./features/RegionSelector";
 import ProductSelector from "./features/ProductSelector";
 import DurationSelector from "./features/DurationSelector";
 import PricingTable from "./features/PricingTable";
+import GlobalPricingTable from "./features/GlobalPricingTable"; // <-- ADD THIS IMPORT
 import Box from "@cloudscape-design/components/box";
 import NavBar from "./components/NavBar";
 import HelpBar from "./components/HelpBar";
@@ -24,6 +25,7 @@ function App() {
   const [selectedDuration, setSelectedDuration] = useState<any>(null);
   const [showPricingTable, setShowPricingTable] = useState(false);
   const [showDiscounts, setShowDiscounts] = useState(false);
+  const [showGlobalSearch, setShowGlobalSearch] = useState(false); // <-- ADD THIS STATE
 
   const handleShowPricing = () => setShowPricingTable(true);
 
@@ -31,6 +33,7 @@ function App() {
     setSelectedService(service);
     setShowPricingTable(false);
     setShowDiscounts(false);
+    setShowGlobalSearch(false);
     setSelectedProducts([]);
     setSelectedDuration(null);
     setSelectedRegions([]);
@@ -39,6 +42,7 @@ function App() {
     setSelectedVersion(version);
     setShowPricingTable(false);
     setShowDiscounts(false);
+    setShowGlobalSearch(false);
     setSelectedProducts([]);
     setSelectedDuration(null);
     setSelectedRegions([]);
@@ -47,6 +51,7 @@ function App() {
     setSelectedRegions(regions);
     setShowPricingTable(false);
     setShowDiscounts(false);
+    setShowGlobalSearch(false);
     setSelectedProducts([]);
     setSelectedDuration(null);
   };
@@ -54,11 +59,13 @@ function App() {
     setSelectedProducts(products);
     setShowPricingTable(false);
     setShowDiscounts(false);
+    setShowGlobalSearch(false);
   };
   const handleDurationChange = (duration: any) => {
     setSelectedDuration(duration);
     setShowPricingTable(false);
     setShowDiscounts(false);
+    setShowGlobalSearch(false);
   };
 
   const serviceName = selectedService?.label || "this service";
@@ -119,9 +126,20 @@ function App() {
               >
                 Show Discounts
               </Button>
+              <Button
+                variant="normal"
+                onClick={() => setShowGlobalSearch(gs => !gs)}
+                disabled={!selectedService}
+              >
+                {showGlobalSearch ? "Show Filtered Table" : "Global Search"}
+              </Button>
             </SpaceBetween>
 
-            {showPricingTable && (
+            {showGlobalSearch && selectedService && (
+              <GlobalPricingTable selectedService={selectedService} />
+            )}
+
+            {!showGlobalSearch && showPricingTable && (
               <ErrorBoundary>
                 <PricingTable
                   service={selectedService}
